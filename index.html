@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProctorExam - Secure Online Examination Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .no-select {
+            user-select: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+        }
+    </style>
+</head>
+<body class="h-full bg-slate-50 text-slate-800 flex flex-col antialiased selection:bg-indigo-500 selection:text-white">
+
+    <header class="bg-indigo-600 text-white shadow-md z-30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('landing')">
+                <div class="bg-white text-indigo-600 p-2 rounded-xl shadow font-bold flex items-center justify-center w-10 h-10">
+                    <i class="fa-solid fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-tight">ProctorExam</h1>
+                    <p class="text-xs text-indigo-200">Secure AI & Proctoring Assessment Suite</p>
+                </div>
+            </div>
+            <div id="nav-actions" class="flex items-center space-x-3">
+                <button onclick="switchView('admin-login')" class="bg-indigo-700 hover:bg-indigo-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition flex items-center space-x-2 shadow-sm border border-indigo-500">
+                    <i class="fa-solid fa-user-shield"></i>
+                    <span>Admin Portal</span>
+                </button>
+                <button onclick="switchView('student-join')" class="bg-white hover:bg-indigo-50 text-indigo-700 px-4 py-2 rounded-lg text-sm font-semibold transition flex items-center space-x-2 shadow">
+                    <i class="fa-solid fa-user-graduate"></i>
+                    <span>Take Exam</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 flex flex-col relative overflow-y-auto">
+
+        <!-- VIEW 1: LANDING / HOME -->
+        <div id="view-landing" class="view-section flex-1 flex flex-col items-center justify-center p-6 text-center max-w-4xl mx-auto">
+            <div class="inline-flex items-center space-x-2 bg-indigo-50 text-indigo-700 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-6 border border-indigo-100 shadow-sm animate-pulse">
+                <i class="fa-solid fa-shield-halved"></i>
+                <span>Next-Gen Secure Online Examinations</span>
+            </div>
+            <h2 class="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
+                Fair Assessments with <span class="text-indigo-600">Advanced Proctoring</span>
+            </h2>
+            <p class="text-lg text-slate-600 mb-10 max-w-2xl leading-relaxed">
+                Empower your institution with robust test creation, live webcam monitoring, tab-switch violation tracking, and instant auto-evaluation.
+            </p>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md">
+                <button onclick="switchView('student-join')" class="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3.5 rounded-xl shadow-lg hover:shadow-indigo-200 transition flex items-center justify-center space-x-3">
+                    <i class="fa-solid fa-play text-sm"></i>
+                    <span>Enter Exam Code</span>
+                </button>
+                <button onclick="switchView('admin-login')" class="w-full sm:w-auto bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold px-8 py-3.5 rounded-xl shadow-sm transition flex items-center justify-center space-x-3">
+                    <i class="fa-solid fa-lock text-sm"></i>
+                    <span>Admin Dashboard</span>
+                </button>
+            </div>
+            <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 w-full text-left">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4 text-lg">
+                        <i class="fa-solid fa-video"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Webcam Proctoring</h3>
+                    <p class="text-sm text-slate-500">Live picture-in-picture video feed captures student presence during testing.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4 text-lg">
+                        <i class="fa-solid fa-eye-slash"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Anti-Cheat Control</h3>
+                    <p class="text-sm text-slate-500">Detects tab switches, minimizes, and focus loss to maintain academic integrity.</p>
+                </div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4 text-lg">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Instant Results</h3>
+                    <p class="text-sm text-slate-500">Automated evaluation generates instant scores with detailed question reviews.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 2: ADMIN LOGIN -->
+        <div id="view-admin-login" class="view-section hidden flex-1 flex items-center justify-center p-6">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 max-w-md w-full">
+                <div class="text-center mb-8">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fa-solid fa-user-shield"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900">Admin Sign In</h3>
+                    <p class="text-sm text-slate-500 mt-1">Enter credentials to manage exams & submissions</p>
+                </div>
+                <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Username</label>
+                        <input type="text" id="admin-user" required value="admin" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Password</label>
+                        <input type="password" id="admin-pass" required value="!@ADMIN#$" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition text-sm">
+                        Access Admin Dashboard
+                    </button>
+                    <div class="text-center mt-4">
+                        <button type="button" onclick="switchView('landing')" class="text-xs text-indigo-600 hover:underline font-medium">Back to Home</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- VIEW 3: ADMIN DASHBOARD -->
+        <div id="view-admin-dashboard" class="view-section hidden flex-1 max-w-7xl mx-auto w-full p-6 flex flex-col space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900">Admin Dashboard</h2>
+                    <p class="text-sm text-slate-500">Create exams, configure question banks, and monitor student reports.</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="openCreateExamModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl font-semibold text-sm shadow transition flex items-center space-x-2">
+                        <i class="fa-solid fa-plus"></i>
+                        <span>Create New Exam</span>
+                    </button>
+                    <button onclick="logoutAdmin()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl font-medium text-sm transition">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="flex space-x-2 border-b border-slate-200">
+                <button onclick="switchAdminTab('exams')" id="admin-tab-exams-btn" class="pb-3 px-4 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 transition">Exams List</button>
+                <button onclick="switchAdminTab('submissions')" id="admin-tab-submissions-btn" class="pb-3 px-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition">Student Submissions & Reports</button>
+            </div>
+
+            <!-- TAB 1: EXAMS LIST -->
+            <div id="admin-tab-exams" class="space-y-4">
+                <div id="exams-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Populated via JS -->
+                </div>
+            </div>
+
+            <!-- TAB 2: SUBMISSIONS REPORT -->
+            <div id="admin-tab-submissions" class="hidden space-y-4">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr class="bg-slate-50 border-b border-slate-200 text-xs font-bold uppercase text-slate-500 tracking-wider">
+                                    <th class="p-4">Student Name</th>
+                                    <th class="p-4">Father's Name</th>
+                                    <th class="p-4">Exam Title</th>
+                                    <th class="p-4">Score</th>
+                                    <th class="p-4">Percentage</th>
+                                    <th class="p-4">Status</th>
+                                    <th class="p-4">Submitted At</th>
+                                </tr>
+                            </thead>
+                            <tbody id="submissions-table-body" class="divide-y divide-slate-100 text-sm">
+                                <!-- Populated via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 4: STUDENT JOIN MODAL / SCREEN -->
+        <div id="view-student-join" class="view-section hidden flex-1 flex items-center justify-center p-6">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 max-w-md w-full">
+                <div class="text-center mb-8">
+                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                        <i class="fa-solid fa-user-graduate"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-slate-900">Join Examination</h3>
+                    <p class="text-sm text-slate-500 mt-1">Enter exam credentials provided by your instructor</p>
+                </div>
+                <form id="student-join-form" onsubmit="handleStudentJoin(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Unique Exam Code</label>
+                        <input type="text" id="join-code" required placeholder="e.g. MATH101" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm uppercase font-mono tracking-wider bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Student Full Name</label>
+                        <input type="text" id="join-name" required placeholder="John Doe" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Father's Full Name</label>
+                        <input type="text" id="join-father" required placeholder="Robert Doe" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
+                    </div>
+                    <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition text-sm flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        <span>Proceed to Proctoring Check</span>
+                    </button>
+                    <div class="text-center mt-4">
+                        <button type="button" onclick="switchView('landing')" class="text-xs text-indigo-600 hover:underline font-medium">Back to Home</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- VIEW 5: WEBCAM PROCTORING PERMISSION SCREEN -->
+        <div id="view-proctor-check" class="view-section hidden flex-1 flex items-center justify-center p-6">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border border-slate-200 max-w-xl w-full text-center">
+                <div class="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
+                    <i class="fa-solid fa-video"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-slate-900 mb-2">Webcam & Proctoring Setup</h3>
+                <p class="text-sm text-slate-500 mb-6">
+                    This examination requires active webcam proctoring and focus tracking. Please grant camera access and ensure you stay in full-screen mode without switching tabs.
+                </p>
+                <div class="bg-slate-100 rounded-xl overflow-hidden mb-6 aspect-video relative flex items-center justify-center border border-slate-200">
+                    <video id="setup-video-preview" autoplay playsinline muted class="w-full h-full object-cover transform -scale-x-100"></video>
+                    <div id="cam-status-overlay" class="absolute inset-0 bg-slate-900/75 flex flex-col items-center justify-center text-white p-4">
+                        <i class="fa-solid fa-video-slash text-3xl mb-2 text-red-400"></i>
+                        <p class="text-sm font-medium">Camera access required to proceed</p>
+                        <button onclick="initCameraStream()" class="mt-3 bg-white text-slate-900 font-semibold px-4 py-2 rounded-lg text-xs shadow hover:bg-slate-100 transition">
+                            Enable Camera
+                        </button>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button onclick="switchView('student-join')" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 py-3 rounded-xl font-semibold text-sm transition">
+                        Back
+                    </button>
+                    <button id="start-exam-final-btn" disabled onclick="launchExamSession()" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-300 text-white py-3 rounded-xl font-semibold text-sm shadow transition">
+                        Start Exam Now
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 6: ACTIVE EXAMINATION INTERFACE -->
+        <div id="view-exam-room" class="view-section hidden flex-1 flex flex-col bg-slate-900 text-white no-select overflow-hidden">
+            <!-- Exam Top Bar -->
+            <div class="bg-slate-800 border-b border-slate-700 px-6 py-4 flex items-center justify-between shadow-md">
+                <div class="flex items-center space-x-4">
+                    <div>
+                        <h3 id="room-exam-title" class="font-bold text-lg text-white leading-tight">Mathematics Assessment</h3>
+                        <p id="room-student-info" class="text-xs text-slate-400">Student: John Doe (Father: Robert)</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-6">
+                    <div class="flex items-center space-x-2 bg-red-500/10 border border-red-500/30 px-3 py-1.5 rounded-xl text-red-400 font-mono text-sm font-semibold">
+                        <i class="fa-solid fa-triangle-exclamation animate-pulse"></i>
+                        <span>Warnings: <span id="warning-count-badge">0</span>/2</span>
+                    </div>
+                    <div class="flex items-center space-x-2 bg-indigo-500/20 border border-indigo-500/40 px-4 py-1.5 rounded-xl text-indigo-300 font-mono text-base font-bold">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="exam-countdown-timer">00:00:00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exam Body -->
+            <div class="flex-1 flex overflow-hidden">
+                <!-- Question Area -->
+                <div class="flex-1 p-6 lg:p-10 flex flex-col justify-between overflow-y-auto">
+                    <div class="max-w-3xl mx-auto w-full space-y-6">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                            <span id="question-number-label" class="text-xs font-bold uppercase tracking-wider text-indigo-400">Question 1 of 10</span>
+                            <span id="question-status-badge" class="text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full font-medium">Unanswered</span>
+                        </div>
+                        <div>
+                            <h4 id="question-text" class="text-xl sm:text-2xl font-semibold text-white leading-snug">
+                                What is the derivative of x squared with respect to x?
+                            </h4>
+                        </div>
+                        <div id="options-container" class="space-y-3 pt-4">
+                            <!-- Options rendered via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Navigation Footer -->
+                    <div class="max-w-3xl mx-auto w-full pt-6 flex items-center justify-between border-t border-slate-800 mt-8">
+                        <div class="flex items-center space-x-3">
+                            <button onclick="navigateQuestion(-1)" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2">
+                                <i class="fa-solid fa-chevron-left text-xs"></i>
+                                <span>Previous</span>
+                            </button>
+                            <button onclick="navigateQuestion(1)" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2 shadow-lg shadow-indigo-600/20">
+                                <span>Next</span>
+                                <i class="fa-solid fa-chevron-right text-xs"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="toggleMarkReview()" id="mark-review-btn" class="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2">
+                                <i class="fa-regular fa-bookmark"></i>
+                                <span>Mark for Review</span>
+                            </button>
+                            <button onclick="confirmSubmitExam()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2.5 rounded-xl text-sm font-semibold transition shadow-lg shadow-emerald-600/20 flex items-center space-x-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Submit Exam</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Sidebar: Palette & Live Webcam PIP -->
+                <div class="w-80 bg-slate-950 border-l border-slate-800 p-6 flex flex-col justify-between hidden lg:flex">
+                    <div class="space-y-6">
+                        <!-- Live Webcam PIP -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Proctoring Feed</span>
+                                <span class="flex h-2 w-2 relative">
+                                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                            </div>
+                            <div class="rounded-xl overflow-hidden aspect-video bg-slate-900 border border-slate-800 relative">
+                                <video id="active-webcam-pip" autoplay playsinline muted class="w-full h-full object-cover transform -scale-x-100"></video>
+                            </div>
+                        </div>
+
+                        <!-- Question Palette -->
+                        <div>
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Question Palette</span>
+                            </div>
+                            <div id="question-palette-grid" class="grid grid-cols-5 gap-2.5">
+                                <!-- Palette buttons rendered via JS -->
+                            </div>
+                        </div>
+
+                        <!-- Legend -->
+                        <div class="grid grid-cols-2 gap-2 text-xs text-slate-400 pt-2 border-t border-slate-900">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded bg-emerald-500"></div>
+                                <span>Answered</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded bg-amber-500"></div>
+                                <span>Marked</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded bg-slate-800"></div>
+                                <span>Unanswered</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 rounded bg-indigo-600 ring-2 ring-white"></div>
+                                <span>Current</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- VIEW 7: RESULTS REPORT SCREEN -->
+        <div id="view-results" class="view-section hidden flex-1 flex flex-col items-center justify-center p-6 max-w-4xl mx-auto w-full">
+            <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 sm:p-12 w-full text-center space-y-6">
+                <div id="result-icon-container" class="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-inner">
+                    <i id="result-icon" class="fa-solid fa-award"></i>
+                </div>
+                <div>
+                    <h2 id="result-status-title" class="text-3xl font-bold text-slate-900">Examination Completed</h2>
+                    <p id="result-status-subtitle" class="text-slate-500 text-sm mt-1">Here is your automated assessment performance report.</p>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 py-6 border-y border-slate-100">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <span class="text-xs text-slate-400 uppercase font-bold">Total Marks</span>
+                        <h4 id="res-total-score" class="text-2xl font-extrabold text-slate-900 mt-1">8 / 10</h4>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <span class="text-xs text-slate-400 uppercase font-bold">Percentage</span>
+                        <h4 id="res-percentage" class="text-2xl font-extrabold text-indigo-600 mt-1">80.0%</h4>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <span class="text-xs text-slate-400 uppercase font-bold">Correct</span>
+                        <h4 id="res-correct" class="text-2xl font-extrabold text-emerald-600 mt-1">8</h4>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <span class="text-xs text-slate-400 uppercase font-bold">Incorrect / Unans</span>
+                        <h4 id="res-incorrect" class="text-2xl font-extrabold text-red-600 mt-1">2</h4>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-center space-x-4 pt-4">
+                    <button onclick="switchView('landing')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow transition text-sm">
+                        Return to Home
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- MODAL: CREATE EXAM -->
+    <div id="modal-create-exam" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden">
+            <div class="p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50">
+                <div>
+                    <h3 class="text-xl font-bold text-slate-900">Create New Examination</h3>
+                    <p class="text-xs text-slate-500">Configure exam parameters and add questions below</p>
+                </div>
+                <button onclick="closeCreateExamModal()" class="w-8 h-8 rounded-full bg-slate-200 hover:bg-slate-300 flex items-center justify-center text-slate-700 transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto flex-1 space-y-6">
+                <form id="create-exam-form" class="space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Exam Title</label>
+                            <input type="text" id="exam-title-input" required placeholder="e.g. Advanced Physics Final" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Duration (Minutes)</label>
+                            <input type="number" id="exam-duration-input" required min="1" value="30" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Unique Exam Code</label>
+                            <input type="text" id="exam-code-input" required placeholder="PHYS-101" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm uppercase font-mono">
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-bold text-slate-900">Question Builder (<span id="question-builder-count">0</span>)</h4>
+                            <button type="button" onclick="addQuestionBuilderItem()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold px-3 py-1.5 rounded-lg text-xs transition flex items-center space-x-1.5">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Add Question</span>
+                            </button>
+                        </div>
+                        <div id="question-builder-list" class="space-y-4">
+                            <!-- Question Builder Cards inserted here -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="p-6 border-t border-slate-200 bg-slate-50 flex items-center justify-end space-x-3">
+                <button onclick="closeCreateExamModal()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold px-5 py-2.5 rounded-xl text-sm transition">Cancel</button>
+                <button onclick="saveNewExam()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl text-sm shadow transition">Save & Publish Exam</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM ALERT MODAL -->
+    <div id="custom-alert-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-6 text-center space-y-4">
+            <div id="alert-icon-box" class="w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                <i id="alert-icon" class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div>
+                <h3 id="alert-title" class="text-xl font-bold text-slate-900">Security Warning</h3>
+                <p id="alert-message" class="text-sm text-slate-600 mt-2">You have switched tabs or left the examination window. This is a strict violation.</p>
+            </div>
+            <button onclick="closeCustomAlert()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow text-sm transition">
+                Understand & Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- SUBMIT CONFIRMATION MODAL -->
+    <div id="submit-confirm-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl shadow-2xl border border-slate-200 max-w-md w-full p-6 text-center space-y-5">
+            <div class="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
+                <i class="fa-solid fa-circle-question"></i>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold text-slate-900">Submit Examination?</h3>
+                <p class="text-sm text-slate-600 mt-2">Are you sure you want to finish and submit your test? You will not be able to change your answers after submission.</p>
+            </div>
+            <div class="flex items-center space-x-3 pt-2">
+                <button onclick="closeSubmitConfirmModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold py-3 rounded-xl text-sm transition">
+                    Continue Exam
+                </button>
+                <button onclick="executeFinalSubmission()" class="w-1/2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl shadow text-sm transition">
+                    Yes, Submit
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data Store & State Initialization
+        let exams = JSON.parse(localStorage.getItem('proctor_exams')) || [
+            {
+                id: 'exam_demo_1',
+                title: 'General Aptitude & Mathematics',
+                duration: 15,
+                code: 'MATH101',
+                questions: [
+                    {
+                        text: 'What is the value of 15% of 200?',
+                        options: ['25', '30', '35', '40'],
+                        correct: 1
+                    },
+                    {
+                        text: 'Which planet is known as the Red Planet?',
+                        options: ['Venus', 'Mars', 'Jupiter', 'Saturn'],
+                        correct: 1
+                    },
+                    {
+                        text: 'What is the chemical symbol for Gold?',
+                        options: ['Ag', 'Au', 'Gd', 'Pb'],
+                        correct: 1
+                    },
+                    {
+                        text: 'Solve for x: 2x + 5 = 15',
+                        options: ['3', '4', '5', '6'],
+                        correct: 2
+                    },
+                    {
+                        text: 'Who proposed the Theory of Relativity?',
+                        options: ['Isaac Newton', 'Nikola Tesla', 'Albert Einstein', 'Galileo Galilei'],
+                        correct: 2
+                    }
+                ]
+            }
+        ];
+
+        let submissions = JSON.parse(localStorage.getItem('proctor_submissions')) || [];
+
+        let currentAdminTab = 'exams';
+        let currentStudent = { name: '', father: '', code: '' };
+        let activeExam = null;
+        let currentQuestionIndex = 0;
+        let studentAnswers = {};
+        let markedQuestions = {};
+        let examTimerInterval = null;
+        let remainingSeconds = 0;
+        let tabWarningCount = 0;
+        let activeStream = null;
+        let builderQuestions = [];
+
+        // Save to LocalStorage helper
+        function persistData() {
+            localStorage.setItem('proctor_exams', JSON.stringify(exams));
+            localStorage.setItem('proctor_submissions', JSON.stringify(submissions));
+        }
+
+        // View Switcher
+        function switchView(viewId) {
+            document.querySelectorAll('.view-section').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`view-${viewId}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            // Stop camera if leaving exam or proctor check
+            if (viewId !== 'proctor-check' && viewId !== 'exam-room') {
+                stopCameraStream();
+            }
+
+            // Refresh specific views
+            if (viewId === 'admin-dashboard') {
+                renderAdminExamsList();
+                renderAdminSubmissions();
+            }
+        }
+
+        // Custom Alert Modal
+        function showAlert(title, message, isError = true) {
+            document.getElementById('alert-title').innerText = title;
+            document.getElementById('alert-message').innerText = message;
+            const iconBox = document.getElementById('alert-icon-box');
+            const icon = document.getElementById('alert-icon');
+            if (isError) {
+                iconBox.className = "w-14 h-14 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner";
+                icon.className = "fa-solid fa-triangle-exclamation";
+            } else {
+                iconBox.className = "w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner";
+                icon.className = "fa-solid fa-circle-check";
+            }
+            document.getElementById('custom-alert-modal').classList.remove('hidden');
+        }
+
+        function closeCustomAlert() {
+            document.getElementById('custom-alert-modal').classList.add('hidden');
+        }
+
+        // Admin Login
+        function handleAdminLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('admin-user').value;
+            const pass = document.getElementById('admin-pass').value;
+            if (user === 'admin' && pass === '!@ADMIN#$') {
+                switchView('admin-dashboard');
+            } else {
+                showAlert('Authentication Failed', 'Invalid administrator username or password.');
+            }
+        }
+
+        function logoutAdmin() {
+            switchView('landing');
+        }
+
+        function switchAdminTab(tab) {
+            currentAdminTab = tab;
+            if (tab === 'exams') {
+                document.getElementById('admin-tab-exams').classList.remove('hidden');
+                document.getElementById('admin-tab-submissions').classList.add('hidden');
+                document.getElementById('admin-tab-exams-btn').className = "pb-3 px-4 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 transition";
+                document.getElementById('admin-tab-submissions-btn').className = "pb-3 px-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition";
+            } else {
+                document.getElementById('admin-tab-exams').classList.add('hidden');
+                document.getElementById('admin-tab-submissions').classList.remove('hidden');
+                document.getElementById('admin-tab-exams-btn').className = "pb-3 px-4 text-sm font-semibold text-slate-500 hover:text-slate-700 transition";
+                document.getElementById('admin-tab-submissions-btn').className = "pb-3 px-4 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 transition";
+                renderAdminSubmissions();
+            }
+        }
+
+        // Admin: Render Exams List
+        function renderAdminExamsList() {
+            const container = document.getElementById('exams-list-container');
+            if (exams.length === 0) {
+                container.innerHTML = `<div class="col-span-full text-center py-12 text-slate-400">No exams created yet. Click "Create New Exam" above.</div>`;
+                return;
+            }
+            container.innerHTML = exams.map(exam => `
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-2.5 py-1 rounded-lg uppercase font-mono">${exam.code}</span>
+                            <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i>${exam.duration} mins</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 text-lg mb-1">${exam.title}</h4>
+                        <p class="text-xs text-slate-500">${exam.questions.length} Multiple Choice Questions</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-slate-100">
+                        <span class="text-xs font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Active</span>
+                        <button onclick="deleteExam('${exam.id}')" class="text-red-500 hover:text-red-700 text-xs font-semibold flex items-center space-x-1">
+                            <i class="fa-solid fa-trash"></i>
+                            <span>Delete</span>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteExam(id) {
+            if (confirm('Are you sure you want to delete this exam?')) {
+                exams = exams.filter(e => e.id !== id);
+                persistData();
+                renderAdminExamsList();
+            }
+        }
+
+        // Admin: Render Submissions Table
+        function renderAdminSubmissions() {
+            const tbody = document.getElementById('submissions-table-body');
+            if (submissions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" class="p-6 text-center text-slate-400">No student submissions recorded yet.</td></tr>`;
+                return;
+            }
+            tbody.innerHTML = submissions.map(sub => `
+                <tr class="hover:bg-slate-50/50 transition">
+                    <td class="p-4 font-semibold text-slate-900">${sub.studentName}</td>
+                    <td class="p-4 text-slate-600">${sub.fatherName}</td>
+                    <td class="p-4 text-slate-700">${sub.examTitle}</td>
+                    <td class="p-4 font-bold text-slate-900">${sub.score} / ${sub.totalQuestions}</td>
+                    <td class="p-4 font-semibold text-indigo-600">${sub.percentage}%</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-xs font-semibold ${sub.status === 'Submitted' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'}">
+                            ${sub.status}
+                        </span>
+                    </td>
+                    <td class="p-4 text-xs text-slate-400">${sub.submittedAt}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Create Exam Modal
+        function openCreateExamModal() {
+            document.getElementById('exam-title-input').value = '';
+            document.getElementById('exam-duration-input').value = '30';
+            document.getElementById('exam-code-input').value = 'EXAM-' + Math.floor(1000 + Math.random() * 9000);
+            builderQuestions = [];
+            addQuestionBuilderItem();
+            document.getElementById('modal-create-exam').classList.remove('hidden');
+        }
+
+        function closeCreateExamModal() {
+            document.getElementById('modal-create-exam').classList.add('hidden');
+        }
+
+        function addQuestionBuilderItem() {
+            builderQuestions.push({
+                text: '',
+                options: ['', '', '', ''],
+                correct: 0
+            });
+            renderQuestionBuilderList();
+        }
+
+        function removeQuestionBuilderItem(index) {
+            builderQuestions.splice(index, 1);
+            renderQuestionBuilderList();
+        }
+
+        function renderQuestionBuilderList() {
+            document.getElementById('question-builder-count').innerText = builderQuestions.length;
+            const container = document.getElementById('question-builder-list');
+            if (builderQuestions.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">No questions added. Click "Add Question" above.</p>`;
+                return;
+            }
+            container.innerHTML = builderQuestions.map((q, qIndex) => `
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold uppercase text-slate-700">Question ${qIndex + 1}</span>
+                        ${builderQuestions.length > 1 ? `<button type="button" onclick="removeQuestionBuilderItem(${qIndex})" class="text-red-500 hover:text-red-700 text-xs"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                    <input type="text" placeholder="Enter question statement..." value="${q.text}" oninput="builderQuestions[${qIndex}].text = this.value" class="w-full px-3 py-2 rounded-xl border border-slate-300 bg-white text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        ${q.options.map((opt, oIndex) => `
+                            <div class="flex items-center space-x-2">
+                                <input type="radio" name="correct_${qIndex}" ${q.correct === oIndex ? 'checked' : ''} onchange="builderQuestions[${qIndex}].correct = ${oIndex}" title="Mark as correct answer" class="text-indigo-600 focus:ring-indigo-500">
+                                <input type="text" placeholder="Option ${oIndex + 1}" value="${opt}" oninput="builderQuestions[${qIndex}].options[${oIndex}] = this.value" class="w-full px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500" required>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function saveNewExam() {
+            const title = document.getElementById('exam-title-input').value.trim();
+            const duration = parseInt(document.getElementById('exam-duration-input').value);
+            const code = document.getElementById('exam-code-input').value.trim().toUpperCase();
+
+            if (!title || !code || isNaN(duration)) {
+                alert('Please fill out all exam metadata fields.');
+                return;
+            }
+            if (builderQuestions.length === 0) {
+                alert('Please add at least one question to the exam.');
+                return;
+            }
+
+            for (let i = 0; i < builderQuestions.length; i++) {
+                if (!builderQuestions[i].text.trim()) {
+                    alert(`Question ${i + 1} statement is empty.`);
+                    return;
+                }
+                for (let o = 0; o < 4; o++) {
+                    if (!builderQuestions[i].options[o].trim()) {
+                        alert(`Question ${i + 1}, Option ${o + 1} is empty.`);
+                        return;
+                    }
+                }
+            }
+
+            const newExam = {
+                id: 'exam_' + Date.now(),
+                title,
+                duration,
+                code,
+                questions: builderQuestions
+            };
+
+            exams.push(newExam);
+            persistData();
+            closeCreateExamModal();
+            renderAdminExamsList();
+        }
+
+        // Student Join Flow
+        function handleStudentJoin(e) {
+            e.preventDefault();
+            const code = document.getElementById('join-code').value.trim().toUpperCase();
+            const name = document.getElementById('join-name').value.trim();
+            const father = document.getElementById('join-father').value.trim();
+
+            const found = exams.find(e => e.code === code);
+            if (!found) {
+                showAlert('Invalid Exam Code', 'No examination found matching this code. Please verify with your instructor.');
+                return;
+            }
+
+            currentStudent = { name, father, code };
+            activeExam = found;
+            switchView('proctor-check');
+            initCameraStream();
+        }
+
+        // Webcam Stream Initialization
+        async function initCameraStream() {
+            try {
+                activeStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                const previewVideo = document.getElementById('setup-video-preview');
+                const pipVideo = document.getElementById('active-webcam-pip');
+                previewVideo.srcObject = activeStream;
+                pipVideo.srcObject = activeStream;
+
+                document.getElementById('cam-status-overlay').classList.add('hidden');
+                document.getElementById('start-exam-final-btn').removeAttribute('disabled');
+            } catch (err) {
+                console.error('Camera permission denied:', err);
+                showAlert('Webcam Required', 'Camera permission is strictly required to take proctored examinations.');
+            }
+        }
+
+        function stopCameraStream() {
+            if (activeStream) {
+                activeStream.getTracks().forEach(track => track.stop());
+                activeStream = null;
+            }
+        }
+
+        // Launch Exam Session
+        function launchExamSession() {
+            switchView('exam-room');
+            document.getElementById('room-exam-title').innerText = activeExam.title;
+            document.getElementById('room-student-info').innerText = `Student: ${currentStudent.name} (Father: ${currentStudent.father})`;
+
+            currentQuestionIndex = 0;
+            studentAnswers = {};
+            markedQuestions = {};
+            tabWarningCount = 0;
+            document.getElementById('warning-count-badge').innerText = '0';
+
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            }
+
+            renderCurrentQuestion();
+            startExamTimer(activeExam.duration * 60);
+            initSecurityListeners();
+        }
+
+        // Exam Timer
+        function startExamTimer(durationInSeconds) {
+            remainingSeconds = durationInSeconds;
+            if (examTimerInterval) clearInterval(examTimerInterval);
+
+            examTimerInterval = setInterval(() => {
+                remainingSeconds--;
+                const hours = Math.floor(remainingSeconds / 3600);
+                const minutes = Math.floor((remainingSeconds % 3600) / 60);
+                const seconds = remainingSeconds % 60;
+
+                document.getElementById('exam-countdown-timer').innerText = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+                if (remainingSeconds <= 0) {
+                    clearInterval(examTimerInterval);
+                    autoSubmitExam('Time expired. Exam submitted automatically.');
+                }
+            }, 1000);
+        }
+
+        // Security & Anti-Cheat Listeners
+        function initSecurityListeners() {
+            window.addEventListener('blur', handleVisibilityViolation);
+            document.addEventListener('visibilitychange', () => {
+                if (document.hidden) {
+                    handleVisibilityViolation();
+                }
+            });
+
+            document.addEventListener('contextmenu', e => e.preventDefault());
+            document.addEventListener('copy', e => e.preventDefault());
+        }
+
+        function removeSecurityListeners() {
+            window.removeEventListener('blur', handleVisibilityViolation);
+        }
+
+        function handleVisibilityViolation() {
+            if (document.getElementById('view-exam-room').classList.contains('hidden')) return;
+
+            tabWarningCount++;
+            document.getElementById('warning-count-badge').innerText = tabWarningCount;
+
+            if (tabWarningCount >= 2) {
+                autoSubmitExam('Maximum security violations (tab switching / focus loss) exceeded. Exam auto-submitted.');
+            } else {
+                showAlert('Security Warning!', `Tab switch or window defocus detected! Warning ${tabWarningCount} of 2. Next violation will auto-submit the exam.`);
+            }
+        }
+
+        // Question Navigation & Rendering
+        function renderCurrentQuestion() {
+            const q = activeExam.questions[currentQuestionIndex];
+            document.getElementById('question-number-label').innerText = `Question ${currentQuestionIndex + 1} of ${activeExam.questions.length}`;
+            document.getElementById('question-text').innerText = q.text;
+
+            const isAnswered = studentAnswers[currentQuestionIndex] !== undefined;
+            const badge = document.getElementById('question-status-badge');
+            if (isAnswered) {
+                badge.className = "text-xs bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-full font-medium";
+                badge.innerText = "Answered";
+            } else {
+                badge.className = "text-xs bg-slate-800 text-slate-300 px-3 py-1 rounded-full font-medium";
+                badge.innerText = "Unanswered";
+            }
+
+            const isMarked = markedQuestions[currentQuestionIndex];
+            const markBtn = document.getElementById('mark-review-btn');
+            if (isMarked) {
+                markBtn.className = "bg-amber-500/20 text-amber-300 border border-amber-500/50 px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2";
+                markBtn.innerHTML = `<i class="fa-solid fa-bookmark"></i><span>Unmark Review</span>`;
+            } else {
+                markBtn.className = "bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/30 px-4 py-2.5 rounded-xl text-sm font-semibold transition flex items-center space-x-2";
+                markBtn.innerHTML = `<i class="fa-regular fa-bookmark"></i><span>Mark for Review</span>`;
+            }
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = q.options.map((opt, idx) => {
+                const isSelected = studentAnswers[currentQuestionIndex] === idx;
+                return `
+                    <div onclick="selectOption(${idx})" class="flex items-center space-x-3 p-4 rounded-xl border cursor-pointer transition ${isSelected ? 'bg-indigo-600/20 border-indigo-500 text-white shadow-md' : 'bg-slate-800/60 border-slate-700 text-slate-200 hover:bg-slate-800'}">
+                        <div class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold ${isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-700 text-slate-300'}">
+                            ${String.fromCharCode(65 + idx)}
+                        </div>
+                        <span class="text-sm font-medium flex-1">${opt}</span>
+                    </div>
+                `;
+            }).join('');
+
+            renderQuestionPaletteGrid();
+        }
+
+        function selectOption(optionIndex) {
+            studentAnswers[currentQuestionIndex] = optionIndex;
+            renderCurrentQuestion();
+        }
+
+        function navigateQuestion(direction) {
+            const newIndex = currentQuestionIndex + direction;
+            if (newIndex >= 0 && newIndex < activeExam.questions.length) {
+                currentQuestionIndex = newIndex;
+                renderCurrentQuestion();
+            }
+        }
+
+        function goToQuestion(index) {
+            currentQuestionIndex = index;
+            renderCurrentQuestion();
+        }
+
+        function toggleMarkReview() {
+            if (markedQuestions[currentQuestionIndex]) {
+                delete markedQuestions[currentQuestionIndex];
+            } else {
+                markedQuestions[currentQuestionIndex] = true;
+            }
+            renderCurrentQuestion();
+        }
+
+        function renderQuestionPaletteGrid() {
+            const grid = document.getElementById('question-palette-grid');
+            grid.innerHTML = activeExam.questions.map((_, idx) => {
+                let bgClass = "bg-slate-800 text-slate-300 border border-slate-700";
+                if (idx === currentQuestionIndex) {
+                    bgClass = "bg-indigo-600 text-white ring-2 ring-white shadow";
+                } else if (markedQuestions[idx]) {
+                    bgClass = "bg-amber-500 text-white";
+                } else if (studentAnswers[idx] !== undefined) {
+                    bgClass = "bg-emerald-600 text-white";
+                }
+                return `
+                    <button onclick="goToQuestion(${idx})" class="w-10 h-10 rounded-xl font-bold text-xs flex items-center justify-center transition ${bgClass}">
+                        ${idx + 1}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        // Submit Examination Triggers
+        function confirmSubmitExam() {
+            document.getElementById('submit-confirm-modal').classList.remove('hidden');
+        }
+
+        function closeSubmitConfirmModal() {
+            document.getElementById('submit-confirm-modal').classList.add('hidden');
+        }
+
+        function executeFinalSubmission() {
+            closeSubmitConfirmModal();
+            finalizeExamSubmission('Submitted');
+        }
+
+        function autoSubmitExam(reason) {
+            closeSubmitConfirmModal();
+            finalizeExamSubmission('Auto-Submitted (Violation / Timeout)');
+            showAlert('Exam Submitted', reason);
+        }
+
+        function finalizeExamSubmission(status) {
+            if (examTimerInterval) {
+                clearInterval(examTimerInterval);
+                examTimerInterval = null;
+            }
+            removeSecurityListeners();
+            stopCameraStream();
+
+            if (document.fullscreenElement) {
+                document.exitFullscreen().catch(() => {});
+            }
+
+            let correctCount = 0;
+            const totalQ = activeExam.questions.length;
+            activeExam.questions.forEach((q, idx) => {
+                if (studentAnswers[idx] === q.correct) {
+                    correctCount++;
+                }
+            });
+
+            const percentage = ((correctCount / totalQ) * 100).toFixed(1);
+
+            const submissionRecord = {
+                id: 'sub_' + Date.now(),
+                studentName: currentStudent.name,
+                fatherName: currentStudent.father,
+                examTitle: activeExam.title,
+                score: correctCount,
+                totalQuestions: totalQ,
+                percentage,
+                status,
+                submittedAt: new Date().toLocaleString()
+            };
+
+            submissions.push(submissionRecord);
+            persistData();
+
+            switchView('results');
+            document.getElementById('res-total-score').innerText = `${correctCount} / ${totalQ}`;
+            document.getElementById('res-percentage').innerText = `${percentage}%`;
+            document.getElementById('res-correct').innerText = correctCount;
+            document.getElementById('res-incorrect').innerText = (totalQ - correctCount);
+
+            const passMarkPercentage = 40.0;
+            const isPassed = parseFloat(percentage) >= passMarkPercentage;
+            const iconContainer = document.getElementById('result-icon-container');
+            const icon = document.getElementById('result-icon');
+            const titleEl = document.getElementById('result-status-title');
+            const subtitleEl = document.getElementById('result-status-subtitle');
+
+            if (isPassed) {
+                iconContainer.className = "w-20 h-20 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-inner";
+                icon.className = "fa-solid fa-award";
+                titleEl.innerText = "Congratulations! You Passed";
+                subtitleEl.innerText = `You successfully met the evaluation threshold with ${percentage}%.`;
+            } else {
+                iconContainer.className = "w-20 h-20 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-inner";
+                icon.className = "fa-solid fa-triangle-exclamation";
+                titleEl.innerText = "Assessment Completed";
+                subtitleEl.innerText = `You scored ${percentage}%. Review your preparation and try again.`;
+            }
+        }
+    </script>
+</body>
+</html>
