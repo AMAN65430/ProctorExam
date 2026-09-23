@@ -120,11 +120,11 @@
                 <form id="admin-login-form" onsubmit="handleAdminLogin(event)" class="space-y-4">
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Username</label>
-                        <input type="text" id="admin-user" required value="admin" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
+                        <input type="text" id="admin-user" required value="ADMIN" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Password</label>
-                        <input type="password" id="admin-pass" required value="!@ADMIN#$" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
+                       <input type="password" id="admin-pass" required placeholder="Enter password" class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm bg-slate-50/50">
                     </div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-xl shadow-md transition text-sm">
                         Access Admin Dashboard
@@ -604,11 +604,11 @@
             e.preventDefault();
             const user = document.getElementById('admin-user').value;
             const pass = document.getElementById('admin-pass').value;
-            if (user === 'admin' && pass === '!@ADMIN#$') {
-                switchView('admin-dashboard');
-            } else {
-                showAlert('Authentication Failed', 'Invalid administrator username or password.');
-            }
+            if (user === 'ADMIN' && pass === '!@ADMIN#$') {
+           switchView('admin-dashboard');
+           } else {
+           showAlert('Authentication Failed', 'Invalid administrator username or password.');
+           }
         }
 
         function logoutAdmin() {
